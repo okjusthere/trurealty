@@ -155,6 +155,36 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Thinking About Selling? */}
+      <section className="py-20 bg-primary text-white">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-heading mb-4">
+            Thinking About Selling?
+          </h2>
+          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+            Find out what your home is worth in today&apos;s market. Our agents
+            provide free, personalized Comparative Market Analysis reports.
+          </p>
+          <Link
+            href="/home-value"
+            className="inline-block bg-accent text-white px-10 py-4 text-lg font-medium hover:bg-accent/90 transition-colors"
+          >
+            Get Your Free Home Value Report
+          </Link>
+          <div className="mt-10 flex items-center justify-center gap-10 text-white/70">
+            <div>
+              <span className="block text-2xl font-heading text-white">500+</span>
+              <span className="text-sm">Homes Sold</span>
+            </div>
+            <div className="h-10 w-px bg-white/20" />
+            <div>
+              <span className="block text-2xl font-heading text-white">98%</span>
+              <span className="text-sm">Client Satisfaction</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20 bg-primary text-white text-center">
         <div className="max-w-7xl mx-auto px-4">

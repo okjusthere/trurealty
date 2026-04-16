@@ -12,6 +12,7 @@ const navLinks = [
   { href: '/agents', label: 'Agents' },
   { href: '/listings', label: 'Listings' },
   { href: '/new-developments', label: 'New Developments' },
+  { href: '/home-value', label: 'Home Value', highlight: true },
   { href: '/contact', label: 'Contact' },
 ]
 
@@ -54,7 +55,12 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+                className={cn(
+                  'text-sm font-medium transition-colors',
+                  link.highlight
+                    ? 'text-accent font-semibold hover:text-accent/80'
+                    : 'text-foreground hover:text-primary',
+                )}
               >
                 {link.label}
               </Link>
@@ -88,7 +94,12 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="block px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted-bg hover:text-primary rounded-md transition-colors"
+                className={cn(
+                  'block px-3 py-2.5 text-sm font-medium rounded-md transition-colors',
+                  link.highlight
+                    ? 'text-accent font-semibold hover:bg-accent/10'
+                    : 'text-foreground hover:bg-muted-bg hover:text-primary',
+                )}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.label}
