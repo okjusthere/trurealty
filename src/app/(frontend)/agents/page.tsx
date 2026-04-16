@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getPayloadClient } from '@/lib/payload'
 import AgentCard from '@/components/AgentCard'
 import type { AgentRecord } from '@/lib/site'

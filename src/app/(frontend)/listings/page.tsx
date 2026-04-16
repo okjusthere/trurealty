@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import ListingCard from '@/components/ListingCard'

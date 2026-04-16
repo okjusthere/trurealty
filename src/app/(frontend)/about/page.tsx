@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getCompanyInfo } from '@/lib/company'
 import { getPayloadClient } from '@/lib/payload'
 import AgentCard from '@/components/AgentCard'
