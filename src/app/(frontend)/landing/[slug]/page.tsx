@@ -29,10 +29,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${page.title} | Tru International Realty Corp`,
+    title: page.title,
     description:
       page.excerpt ||
-      `${page.title} - landing page for campaign traffic and inbound inquiries.`,
+      `${page.title} — request a free consultation with our team.`,
   }
 }
 
@@ -71,9 +71,6 @@ export default async function LandingPage({
               </div>
             )}
 
-            <p className="text-sm uppercase tracking-[0.2em] text-accent mb-3">
-              Campaign Landing Page
-            </p>
             <h1 className="text-4xl md:text-5xl font-heading text-primary mb-4">
               {page.title}
             </h1>
@@ -89,8 +86,8 @@ export default async function LandingPage({
               Request More Information
             </h2>
             <p className="text-sm text-muted mb-5">
-              This form submission is tagged to the landing page so campaign traffic
-              has a real destination and a recoverable lead record.
+              Tell us a bit about what you&apos;re looking for and an agent will
+              reach out shortly.
             </p>
             <ContactForm
               context={{

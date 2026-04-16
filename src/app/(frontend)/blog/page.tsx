@@ -6,7 +6,7 @@ import { getPayloadClient } from '@/lib/payload'
 import { getMediaUrl, type PageRecord } from '@/lib/site'
 
 export const metadata = {
-  title: 'Blog | Tru International Realty Corp',
+  title: 'Blog',
   description:
     'Insights, market updates, and real estate tips from Tru International Realty Corp.',
 }

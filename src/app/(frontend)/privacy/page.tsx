@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Privacy Policy | Tru International Realty Corp',
+  title: 'Privacy Policy',
   description: 'Privacy practices for website inquiries and contact requests.',
 }
 

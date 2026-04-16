@@ -5,7 +5,7 @@ import DevelopmentCard from '@/components/DevelopmentCard'
 import type { DevelopmentRecord } from '@/lib/site'
 
 export const metadata = {
-  title: 'New Developments | Tru International Realty Corp',
+  title: 'New Developments',
   description: 'Explore new construction and development projects in New York.',
 }
 

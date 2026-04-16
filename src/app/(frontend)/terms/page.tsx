@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Terms of Service | Tru International Realty Corp',
+  title: 'Terms of Service',
   description: 'Basic terms governing the use of this website.',
 }
 

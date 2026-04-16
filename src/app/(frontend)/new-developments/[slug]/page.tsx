@@ -88,7 +88,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${development.name} | Tru International Realty Corp`,
+    title: development.name,
     description: `${development.name} - New development in ${development.location}.`,
   }
 }

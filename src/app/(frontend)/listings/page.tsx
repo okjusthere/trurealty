@@ -6,7 +6,7 @@ import ListingCard from '@/components/ListingCard'
 import type { ListingRecord } from '@/lib/site'
 
 export const metadata = {
-  title: 'Our Listings | Tru International Realty Corp',
+  title: 'Our Listings',
   description:
     'Browse our curated selection of residential and commercial properties in New York.',
 }

@@ -188,17 +188,6 @@ export default async function HomePage() {
           >
             Get Your Free Home Value Report
           </Link>
-          <div className="mt-10 flex items-center justify-center gap-10 text-white/70">
-            <div>
-              <span className="block text-2xl font-heading text-white">500+</span>
-              <span className="text-sm">Homes Sold</span>
-            </div>
-            <div className="h-10 w-px bg-white/20" />
-            <div>
-              <span className="block text-2xl font-heading text-white">98%</span>
-              <span className="text-sm">Client Satisfaction</span>
-            </div>
-          </div>
         </div>
       </section>
 

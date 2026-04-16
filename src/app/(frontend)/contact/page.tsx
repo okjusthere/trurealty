@@ -5,7 +5,7 @@ import { formatPhone } from '@/lib/utils'
 import ContactForm from '@/components/ContactForm'
 
 export const metadata = {
-  title: 'Contact Us | Tru International Realty Corp',
+  title: 'Contact Us',
   description:
     'Get in touch with Tru International Realty Corp. We are here to help with all your real estate needs.',
 }
@@ -105,9 +105,16 @@ export default async function ContactPage() {
               </div>
             </div>
 
-            <div className="bg-muted-bg border border-border aspect-[4/3] flex flex-col items-center justify-center p-6 rounded-xl">
-              <p className="text-muted text-lg mb-2">Map</p>
-              <p className="text-sm text-muted text-center">{fullAddress}</p>
+            <div className="overflow-hidden rounded-xl border border-border aspect-[4/3]">
+              <iframe
+                src={`https://www.google.com/maps?q=${encodeURIComponent(fullAddress)}&output=embed`}
+                title={`Map of ${fullAddress}`}
+                width="100%"
+                height="100%"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                style={{ border: 0 }}
+              />
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${page.title} | Tru International Realty Corp`,
+    title: page.title,
     description:
       page.excerpt ||
       `Read ${page.title} on the Tru International Realty Corp blog.`,

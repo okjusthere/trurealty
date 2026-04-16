@@ -7,7 +7,7 @@ import RichTextRenderer from '@/components/RichTextRenderer'
 import { getServiceAreaNames, type AgentRecord } from '@/lib/site'
 
 export const metadata = {
-  title: 'About Us | Tru International Realty Corp',
+  title: 'About Us',
   description:
     'Learn more about Tru International Realty Corp, our team, and the markets we serve.',
 }
@@ -22,10 +22,11 @@ export default async function AboutPage() {
     collection: 'agents',
     where: { status: { equals: 'active' } },
     sort: 'sortOrder',
-    limit: 8,
+    limit: 100,
   })
 
   const team = agents.docs as AgentRecord[]
+  const activeAgentCount = agents.totalDocs ?? team.length
   const serviceAreas = getServiceAreaNames(companyInfo.serviceAreas)
 
   return (
@@ -33,14 +34,14 @@ export default async function AboutPage() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="max-w-4xl mb-16">
           <p className="text-sm uppercase tracking-[0.2em] text-accent mb-3">
-            Company Page
+            About Us
           </p>
           <h1 className="text-4xl md:text-5xl font-heading text-primary mb-4">
             {companyInfo.companyName || 'Tru International Realty Corp'}
           </h1>
           <p className="text-lg text-muted max-w-3xl">
             {companyInfo.slogan ||
-              'A lightweight brokerage website should establish trust, show the team, and give every marketing campaign a credible destination.'}
+              'Real Estate Expertise. Results You Can Trust.'}
           </p>
         </div>
 
@@ -48,7 +49,7 @@ export default async function AboutPage() {
           <div>
             <RichTextRenderer
               content={companyInfo.about}
-              emptyMessage="Use this space to explain the brokerage story, what markets you serve, and why clients trust your team."
+              emptyMessage=""
             />
           </div>
 
@@ -59,7 +60,7 @@ export default async function AboutPage() {
             <div className="space-y-5">
               <div>
                 <p className="text-sm text-muted">Active Agents</p>
-                <p className="text-3xl font-heading text-primary">{team.length}</p>
+                <p className="text-3xl font-heading text-primary">{activeAgentCount}</p>
               </div>
               {serviceAreas.length > 0 && (
                 <div>

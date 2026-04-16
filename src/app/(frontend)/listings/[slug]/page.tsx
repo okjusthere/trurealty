@@ -62,7 +62,7 @@ export async function generateMetadata({
   const addressSummary = [listing.address, listing.city].filter(Boolean).join(', ')
 
   return {
-    title: `${listing.title} | Tru International Realty Corp`,
+    title: listing.title,
     description: `${listing.title} - ${addressSummary}. ${formatPrice(listing.price ?? 0)}.`,
   }
 }

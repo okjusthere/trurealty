@@ -72,7 +72,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${agent.name} | Tru International Realty Corp`,
+    title: agent.name,
     description: `${agent.name} - ${titleLabels[agent.title ?? ''] || agent.title || 'Real Estate Agent'} at Tru International Realty Corp.`,
   }
 }

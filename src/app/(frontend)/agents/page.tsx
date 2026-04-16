@@ -5,7 +5,7 @@ import AgentCard from '@/components/AgentCard'
 import type { AgentRecord } from '@/lib/site'
 
 export const metadata = {
-  title: 'Our Team | Tru International Realty Corp',
+  title: 'Our Team',
   description:
     'Meet the experienced real estate professionals at Tru International Realty Corp.',
 }
