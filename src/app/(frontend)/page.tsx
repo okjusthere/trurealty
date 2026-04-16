@@ -34,7 +34,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
+      <Hero
+        title="Tru International Realty Corp"
+        subtitle="Real Estate Expertise. Results You Can Trust. Your trusted partner in New York real estate, serving the Chinese-American community and beyond."
+      />
 
       {/* Featured Listings */}
       <section className="py-16 bg-white">
