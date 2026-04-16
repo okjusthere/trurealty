@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "DATABASE_URI=file:./build-temp.db next build && rm -f ./build-temp.db",
     "start": "next start -p ${PORT:-3000}",
     "lint": "eslint"
   },
