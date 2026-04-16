@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getCompanyInfo } from '@/lib/company'
 import { formatPhone } from '@/lib/utils'
 import ContactForm from '@/components/ContactForm'

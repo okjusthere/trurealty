@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import Link from 'next/link'
 import { getCompanyInfo } from '@/lib/company'
 import { getPayloadClient } from '@/lib/payload'
