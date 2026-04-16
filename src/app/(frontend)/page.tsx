@@ -56,39 +56,8 @@ export default async function HomePage() {
         backgroundImage={heroImage ?? undefined}
       />
 
-      {/* Featured Listings */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
-            Featured Listings
-          </h2>
-          <p className="text-muted text-center mb-10">
-            Handpicked properties for discerning buyers
-          </p>
-          {(listings.docs as ListingRecord[]).length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(listings.docs as ListingRecord[]).map((listing) => (
-                <ListingCard key={listing.id} listing={listing} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-center text-muted">
-              No featured listings at the moment. Check back soon.
-            </p>
-          )}
-          <div className="text-center mt-10">
-            <Link
-              href="/listings"
-              className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
-            >
-              View All Listings
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* New Developments */}
-      <section className="py-16 bg-muted-bg">
+      <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-heading text-primary mb-2 text-center">
             New Developments
@@ -113,6 +82,37 @@ export default async function HomePage() {
               className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
             >
               View All Developments
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Listings */}
+      <section className="py-16 bg-muted-bg">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
+            Featured Listings
+          </h2>
+          <p className="text-muted text-center mb-10">
+            Handpicked properties for discerning buyers
+          </p>
+          {(listings.docs as ListingRecord[]).length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {(listings.docs as ListingRecord[]).map((listing) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">
+              No featured listings at the moment. Check back soon.
+            </p>
+          )}
+          <div className="text-center mt-10">
+            <Link
+              href="/listings"
+              className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
+            >
+              View All Listings
             </Link>
           </div>
         </div>

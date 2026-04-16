@@ -28,21 +28,6 @@ export default function Navbar({ companyInfo }: NavbarProps) {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      {/* Top bar with phone */}
-      <div className="bg-primary text-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-end h-8 text-sm">
-            <a
-              href={`tel:${phoneNumber}`}
-              className="flex items-center gap-1.5 hover:text-accent transition-colors"
-            >
-              <Phone className="h-3.5 w-3.5" />
-              <span>{formatPhone(phoneNumber)}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-
       {/* Main navigation */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
