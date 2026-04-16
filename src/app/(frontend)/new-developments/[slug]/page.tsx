@@ -56,6 +56,22 @@ const amenityLabels: Record<string, string> = {
   'pet-friendly': 'Pet-Friendly',
   'outdoor-space': 'Outdoor Space',
   'ev-charging': 'EV Charging',
+  'balcony': 'Balcony/Terrace',
+  'in-unit-laundry': 'In-Unit Washer/Dryer',
+  'bike-room': 'Bike Room',
+  'video-intercom': 'Video Intercom',
+  'lounge': 'Lounge',
+  'package-room': 'Package Room',
+  'heated-floors': 'Heated Bathroom Floors',
+  'smart-lock': 'Smart Lock',
+}
+
+const unitTypeLabels: Record<string, string> = {
+  'studio': 'Studio',
+  '1br': '1 Bedroom',
+  '2br': '2 Bedroom',
+  '3br': '3 Bedroom',
+  '4br-plus': '4+ Bedroom',
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
@@ -166,7 +182,19 @@ export default async function NewDevelopmentDetailPage({
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Key Details */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 py-6 border-y border-border mb-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-6 border-y border-border mb-8">
+              {dev.stories != null && (
+                <div>
+                  <p className="text-sm text-muted">Stories</p>
+                  <p className="text-2xl font-heading text-primary">{dev.stories}</p>
+                </div>
+              )}
+              {dev.totalUnits != null && (
+                <div>
+                  <p className="text-sm text-muted">Residences</p>
+                  <p className="text-2xl font-heading text-primary">{dev.totalUnits}</p>
+                </div>
+              )}
               {dev.priceRange?.min != null && (
                 <div>
                   <p className="text-sm text-muted">Price Range</p>
@@ -176,15 +204,15 @@ export default async function NewDevelopmentDetailPage({
                   </p>
                 </div>
               )}
-              {dev.totalUnits != null && (
+              {dev.yearBuilt != null && (
                 <div>
-                  <p className="text-sm text-muted">Total Units</p>
-                  <p className="text-lg font-heading text-primary">{dev.totalUnits}</p>
+                  <p className="text-sm text-muted">Year Built</p>
+                  <p className="text-2xl font-heading text-primary">{dev.yearBuilt}</p>
                 </div>
               )}
-              {dev.completionDate && (
+              {dev.completionDate && !dev.yearBuilt && (
                 <div>
-                  <p className="text-sm text-muted">Completion Date</p>
+                  <p className="text-sm text-muted">Completion</p>
                   <p className="text-lg font-heading text-primary">
                     {new Date(dev.completionDate).toLocaleDateString('en-US', {
                       year: 'numeric',
@@ -194,6 +222,18 @@ export default async function NewDevelopmentDetailPage({
                 </div>
               )}
             </div>
+
+            {/* Unit Types */}
+            {dev.unitTypes?.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-8">
+                <span className="text-sm text-muted mr-2">Available:</span>
+                {dev.unitTypes.map((t: string) => (
+                  <span key={t} className="px-3 py-1 text-sm bg-primary/10 text-primary rounded-full">
+                    {unitTypeLabels[t] || t}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Description */}
             <div className="mb-10">
@@ -215,6 +255,37 @@ export default async function NewDevelopmentDetailPage({
                     </span>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Highlights */}
+            {dev.highlights?.length > 0 && (
+              <div className="mb-10">
+                <h2 className="text-2xl font-heading text-primary mb-4">Highlights</h2>
+                <div className="space-y-4">
+                  {dev.highlights.map((h: any, i: number) => (
+                    <div key={i} className="border-l-4 border-accent pl-4">
+                      <h3 className="font-semibold text-foreground">{h.title}</h3>
+                      <p className="text-muted mt-1">{h.content}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Transportation */}
+            {dev.transportation && (
+              <div className="mb-10">
+                <h2 className="text-2xl font-heading text-primary mb-4">Transportation</h2>
+                <p className="text-muted leading-relaxed">{dev.transportation}</p>
+              </div>
+            )}
+
+            {/* Neighborhood */}
+            {dev.neighborhood && (
+              <div className="mb-10">
+                <h2 className="text-2xl font-heading text-primary mb-4">Neighborhood</h2>
+                <p className="text-muted leading-relaxed">{dev.neighborhood}</p>
               </div>
             )}
 

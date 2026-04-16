@@ -45,8 +45,60 @@ export const NewDevelopments: CollectionConfig = {
       ],
     },
     {
+      name: 'stories',
+      type: 'number',
+      admin: { description: 'Number of floors/stories' },
+    },
+    {
       name: 'totalUnits',
       type: 'number',
+      admin: { description: 'Number of residences/units' },
+    },
+    {
+      name: 'highlights',
+      type: 'array',
+      admin: { description: 'Key selling points' },
+      fields: [
+        {
+          name: 'title',
+          type: 'text',
+          required: true,
+          admin: { description: 'e.g. "Thoughtful Design"' },
+        },
+        {
+          name: 'content',
+          type: 'textarea',
+          required: true,
+        },
+      ],
+    },
+    {
+      name: 'transportation',
+      type: 'textarea',
+      admin: { description: 'Nearby transit info (subway, bus, LIRR, etc.)' },
+    },
+    {
+      name: 'neighborhood',
+      type: 'textarea',
+      admin: { description: 'Nearby shopping, dining, schools, parks, etc.' },
+    },
+    {
+      name: 'unitTypes',
+      type: 'select',
+      hasMany: true,
+      options: [
+        { label: 'Studio', value: 'studio' },
+        { label: '1 Bedroom', value: '1br' },
+        { label: '2 Bedroom', value: '2br' },
+        { label: '3 Bedroom', value: '3br' },
+        { label: '4+ Bedroom', value: '4br-plus' },
+      ],
+      admin: { description: 'Available unit configurations' },
+    },
+    {
+      name: 'yearBuilt',
+      type: 'number',
+      admin: { description: 'Year completed or expected completion' },
     },
     {
       name: 'description',
@@ -97,6 +149,14 @@ export const NewDevelopments: CollectionConfig = {
         { label: 'Pet-Friendly', value: 'pet-friendly' },
         { label: 'Outdoor Space', value: 'outdoor-space' },
         { label: 'EV Charging', value: 'ev-charging' },
+        { label: 'Balcony/Terrace', value: 'balcony' },
+        { label: 'In-Unit Washer/Dryer', value: 'in-unit-laundry' },
+        { label: 'Bike Room', value: 'bike-room' },
+        { label: 'Video Intercom', value: 'video-intercom' },
+        { label: 'Lounge', value: 'lounge' },
+        { label: 'Package Room', value: 'package-room' },
+        { label: 'Heated Bathroom Floors', value: 'heated-floors' },
+        { label: 'Smart Lock', value: 'smart-lock' },
       ],
     },
     {
