@@ -7,9 +7,19 @@ import { getCompanyInfo } from '@/lib/company'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'Tru International Realty Corp | New York Real Estate',
+  title: {
+    default: 'Tru International Realty Corp | New York Real Estate',
+    template: '%s | Tru International Realty Corp',
+  },
   description:
     'Tru International Realty Corp (嘉实地产) is a premier New York real estate brokerage specializing in residential, commercial, and new development properties across Queens, Brooklyn, Manhattan, and Long Island.',
+  icons: {
+    icon: [
+      { url: '/icon.png', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon.ico', sizes: 'any' },
+    ],
+    apple: '/apple-icon.png',
+  },
 }
 
 export default async function FrontendLayout({

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Phone } from 'lucide-react'
 import type { CompanyInfoRecord } from '@/lib/site'
+import { getMediaUrl } from '@/lib/site'
 import { cn, formatPhone } from '@/lib/utils'
 
 const navLinks = [
@@ -25,6 +26,7 @@ export default function Navbar({ companyInfo }: NavbarProps) {
   const phoneNumber = companyInfo.phone || '5168298628'
   const companyName = companyInfo.companyName || 'Tru Realty'
   const chineseName = companyInfo.chineseName || '嘉实地产'
+  const logoUrl = getMediaUrl(companyInfo.logo)
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
@@ -32,13 +34,22 @@ export default function Navbar({ companyInfo }: NavbarProps) {
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex flex-col leading-tight">
-            <span className="font-heading text-xl font-bold tracking-wide text-primary">
-              {companyName.toUpperCase()}
-            </span>
-            <span className="text-xs text-muted tracking-widest">
-              {chineseName}
-            </span>
+          <Link href="/" className="flex items-center gap-3">
+            {logoUrl ? (
+              <img
+                src={logoUrl}
+                alt={`${companyName} logo`}
+                className="h-12 w-auto"
+              />
+            ) : null}
+            <div className="flex flex-col leading-tight">
+              <span className="font-heading text-xl font-bold tracking-wide text-primary">
+                {companyName.toUpperCase()}
+              </span>
+              <span className="text-xs text-muted tracking-widest">
+                {chineseName}
+              </span>
+            </div>
           </Link>
 
           {/* Desktop nav links */}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Phone, Mail, MapPin } from 'lucide-react'
 import type { CompanyInfoRecord } from '@/lib/site'
-import { getServiceAreaNames } from '@/lib/site'
+import { getMediaUrl, getServiceAreaNames } from '@/lib/site'
 import { formatPhone } from '@/lib/utils'
 
 const quickLinks = [
@@ -20,6 +20,7 @@ interface FooterProps {
 export default function Footer({ companyInfo }: FooterProps) {
   const companyName = companyInfo.companyName || 'Tru International Realty Corp'
   const chineseName = companyInfo.chineseName || '嘉实地产'
+  const logoUrl = getMediaUrl(companyInfo.logo)
   const slogan =
     companyInfo.slogan ||
     'Your trusted partner in New York real estate, serving the Chinese-American community and beyond.'
@@ -49,13 +50,22 @@ export default function Footer({ companyInfo }: FooterProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Company info */}
           <div className="space-y-4">
-            <div>
-              <h3 className="font-heading text-xl font-bold tracking-wide text-white">
-                {companyName.toUpperCase()}
-              </h3>
-              <p className="text-sm text-white/60 tracking-widest">
-                {chineseName}
-              </p>
+            <div className="flex items-start gap-4">
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt={`${companyName} logo`}
+                  className="h-16 w-auto brightness-0 invert"
+                />
+              ) : null}
+              <div>
+                <h3 className="font-heading text-xl font-bold tracking-wide text-white">
+                  {companyName.toUpperCase()}
+                </h3>
+                <p className="text-sm text-white/60 tracking-widest">
+                  {chineseName}
+                </p>
+              </div>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
               {slogan}
