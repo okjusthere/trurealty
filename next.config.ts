@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
-  output: 'standalone',
+  // output: 'standalone', // disabled - incompatible with `next start`
   images: {
     remotePatterns: [],
   },
