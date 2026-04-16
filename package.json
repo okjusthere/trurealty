@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "bash scripts/build.sh",
-    "start": "tsx ./scripts/init-db.ts && next start -p ${PORT:-3000}",
+    "start": "next start -p ${PORT:-3000}",
     "lint": "eslint"
   },
   "dependencies": {
