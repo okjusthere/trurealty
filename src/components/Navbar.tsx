@@ -1,0 +1,109 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { Menu, X, Phone } from 'lucide-react'
+import { cn, formatPhone } from '@/lib/utils'
+
+const PHONE_NUMBER = '5168298628'
+
+const navLinks = [
+  { href: '/', label: 'Home' },
+  { href: '/agents', label: 'Agents' },
+  { href: '/listings', label: 'Listings' },
+  { href: '/new-developments', label: 'New Developments' },
+  { href: '/contact', label: 'Contact' },
+]
+
+export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  return (
+    <header className="sticky top-0 z-50 bg-white border-b border-border">
+      {/* Top bar with phone */}
+      <div className="bg-primary text-white">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-end h-8 text-sm">
+            <a
+              href={`tel:${PHONE_NUMBER}`}
+              className="flex items-center gap-1.5 hover:text-accent transition-colors"
+            >
+              <Phone className="h-3.5 w-3.5" />
+              <span>{formatPhone(PHONE_NUMBER)}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main navigation */}
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link href="/" className="flex flex-col leading-tight">
+            <span className="font-heading text-xl font-bold tracking-wide text-primary">
+              TRU REALTY
+            </span>
+            <span className="text-xs text-muted tracking-widest">
+              嘉实地产
+            </span>
+          </Link>
+
+          {/* Desktop nav links */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm font-medium text-foreground hover:text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            className="md:hidden p-2 -mr-2 text-foreground"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            {mobileMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        <div
+          className={cn(
+            'md:hidden overflow-hidden transition-all duration-300 ease-in-out',
+            mobileMenuOpen ? 'max-h-80 pb-4' : 'max-h-0',
+          )}
+        >
+          <div className="flex flex-col gap-1 pt-2 border-t border-border">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="block px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted-bg hover:text-primary rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <a
+              href={`tel:${PHONE_NUMBER}`}
+              className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary"
+            >
+              <Phone className="h-4 w-4" />
+              {formatPhone(PHONE_NUMBER)}
+            </a>
+          </div>
+        </div>
+      </nav>
+    </header>
+  )
+}

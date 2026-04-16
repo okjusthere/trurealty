@@ -1,0 +1,175 @@
+import Link from 'next/link'
+import { getPayloadClient } from '@/lib/payload'
+import Hero from '@/components/Hero'
+import ListingCard from '@/components/ListingCard'
+import DevelopmentCard from '@/components/DevelopmentCard'
+import AgentCard from '@/components/AgentCard'
+import TestimonialCard from '@/components/TestimonialCard'
+
+export default async function HomePage() {
+  const payload = await getPayloadClient()
+
+  const [listings, developments, agents, testimonials] = await Promise.all([
+    payload.find({
+      collection: 'listings',
+      where: { featured: { equals: true } },
+      limit: 3,
+    }),
+    payload.find({
+      collection: 'new-developments',
+      where: { featured: { equals: true } },
+      limit: 6,
+    }),
+    payload.find({
+      collection: 'agents',
+      where: { featured: { equals: true } },
+      limit: 4,
+    }),
+    payload.find({
+      collection: 'testimonials',
+      where: { featured: { equals: true } },
+      limit: 3,
+    }),
+  ])
+
+  return (
+    <>
+      <Hero />
+
+      {/* Featured Listings */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
+            Featured Listings
+          </h2>
+          <p className="text-muted text-center mb-10">
+            Handpicked properties for discerning buyers
+          </p>
+          {listings.docs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {listings.docs.map((listing: any) => (
+                <ListingCard key={listing.id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">
+              No featured listings at the moment. Check back soon.
+            </p>
+          )}
+          <div className="text-center mt-10">
+            <Link
+              href="/listings"
+              className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
+            >
+              View All Listings
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* New Developments */}
+      <section className="py-16 bg-muted-bg">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
+            New Developments
+          </h2>
+          <p className="text-muted text-center mb-10">
+            Exclusive new construction projects
+          </p>
+          {developments.docs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {developments.docs.map((dev: any) => (
+                <DevelopmentCard key={dev.id} development={dev} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">
+              No featured developments at the moment. Check back soon.
+            </p>
+          )}
+          <div className="text-center mt-10">
+            <Link
+              href="/new-developments"
+              className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
+            >
+              View All Developments
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Team */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
+            Our Team
+          </h2>
+          <p className="text-muted text-center mb-10">
+            Experienced professionals dedicated to your success
+          </p>
+          {agents.docs.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {agents.docs.map((agent: any) => (
+                <AgentCard key={agent.id} agent={agent} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">
+              Meet our team coming soon.
+            </p>
+          )}
+          <div className="text-center mt-10">
+            <Link
+              href="/agents"
+              className="inline-block border-2 border-primary text-primary px-8 py-3 font-medium hover:bg-primary hover:text-white transition-colors"
+            >
+              Meet the Full Team
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-16 bg-muted-bg">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl font-heading text-primary mb-2 text-center">
+            What Our Clients Say
+          </h2>
+          <p className="text-muted text-center mb-10">
+            Real stories from real clients
+          </p>
+          {testimonials.docs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.docs.map((testimonial: any) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-muted">
+              Client testimonials coming soon.
+            </p>
+          )}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-primary text-white text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-heading mb-4">
+            Ready to Get Started?
+          </h2>
+          <p className="text-lg text-white/80 mb-8 max-w-2xl mx-auto">
+            Whether you are buying, selling, or investing, our team is here to
+            guide you every step of the way.
+          </p>
+          <Link
+            href="/contact"
+            className="inline-block bg-accent text-white px-10 py-4 text-lg font-medium hover:bg-accent/90 transition-colors"
+          >
+            Contact Us Today
+          </Link>
+        </div>
+      </section>
+    </>
+  )
+}
