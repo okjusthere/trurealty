@@ -45,6 +45,7 @@ export default buildConfig({
     client: {
       url: process.env.DATABASE_URI || 'file:./trurealty.db',
     },
+    push: true,
   }),
   sharp,
 })

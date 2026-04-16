@@ -4,6 +4,8 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { getCompanyInfo } from '@/lib/company'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Tru International Realty Corp | New York Real Estate',
   description:
