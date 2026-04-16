@@ -51,6 +51,21 @@ export const CompanyInfo: GlobalConfig = {
       relationTo: 'media',
     },
     {
+      name: 'about',
+      type: 'richText',
+    },
+    {
+      name: 'serviceAreas',
+      type: 'array',
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+        },
+      ],
+    },
+    {
       name: 'socialLinks',
       type: 'group',
       fields: [

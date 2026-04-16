@@ -1,31 +1,48 @@
 import Link from 'next/link'
 import { Phone, Mail, MapPin } from 'lucide-react'
+import type { CompanyInfoRecord } from '@/lib/site'
+import { getServiceAreaNames } from '@/lib/site'
 import { formatPhone } from '@/lib/utils'
-
-const PHONE_NUMBER = '5168298628'
-const EMAIL = 'info@trurealty.com'
-const ADDRESS = 'Great Neck, NY 11021'
 
 const quickLinks = [
   { href: '/', label: 'Home' },
+  { href: '/about', label: 'About Us' },
   { href: '/agents', label: 'Our Agents' },
   { href: '/listings', label: 'Listings' },
   { href: '/new-developments', label: 'New Developments' },
   { href: '/contact', label: 'Contact Us' },
 ]
 
-const serviceAreas = [
-  'Great Neck',
-  'Manhasset',
-  'Roslyn',
-  'Port Washington',
-  'Kings Point',
-  'Flushing',
-  'Bayside',
-  'Manhattan',
-]
+interface FooterProps {
+  companyInfo: CompanyInfoRecord
+}
 
-export default function Footer() {
+export default function Footer({ companyInfo }: FooterProps) {
+  const companyName = companyInfo.companyName || 'Tru International Realty Corp'
+  const chineseName = companyInfo.chineseName || '嘉实地产'
+  const slogan =
+    companyInfo.slogan ||
+    'Your trusted partner in New York real estate, serving the Chinese-American community and beyond.'
+  const phoneNumber = companyInfo.phone || '5168298628'
+  const email = companyInfo.email || 'info@trurealty.com'
+  const address = companyInfo.address
+    ? [
+        companyInfo.address.street,
+        [companyInfo.address.city, companyInfo.address.state, companyInfo.address.zip]
+          .filter(Boolean)
+          .join(', '),
+      ]
+        .filter(Boolean)
+        .join(', ')
+    : 'Great Neck, NY 11021'
+  const serviceAreas = getServiceAreaNames(companyInfo.serviceAreas)
+  const socialLinks = [
+    { label: 'WeChat', href: companyInfo.socialLinks?.wechat || null },
+    { label: 'Instagram', href: companyInfo.socialLinks?.instagram || null },
+    { label: 'Facebook', href: companyInfo.socialLinks?.facebook || null },
+    { label: 'XHS', href: companyInfo.socialLinks?.xiaohongshu || null },
+  ]
+
   return (
     <footer className="bg-primary text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
@@ -34,34 +51,33 @@ export default function Footer() {
           <div className="space-y-4">
             <div>
               <h3 className="font-heading text-xl font-bold tracking-wide text-white">
-                TRU REALTY
+                {companyName.toUpperCase()}
               </h3>
               <p className="text-sm text-white/60 tracking-widest">
-                嘉实地产
+                {chineseName}
               </p>
             </div>
             <p className="text-sm text-white/70 leading-relaxed">
-              Tru International Realty Corp. — Your trusted partner in New York
-              real estate, serving the Chinese-American community and beyond.
+              {slogan}
             </p>
             <div className="space-y-2.5 text-sm text-white/70">
               <a
-                href={`tel:${PHONE_NUMBER}`}
+                href={`tel:${phoneNumber}`}
                 className="flex items-center gap-2 hover:text-accent transition-colors"
               >
                 <Phone className="h-4 w-4 shrink-0" />
-                {formatPhone(PHONE_NUMBER)}
+                {formatPhone(phoneNumber)}
               </a>
               <a
-                href={`mailto:${EMAIL}`}
+                href={`mailto:${email}`}
                 className="flex items-center gap-2 hover:text-accent transition-colors"
               >
                 <Mail className="h-4 w-4 shrink-0" />
-                {EMAIL}
+                {email}
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 shrink-0 mt-0.5" />
-                <span>{ADDRESS}</span>
+                <span>{address}</span>
               </div>
             </div>
           </div>
@@ -91,7 +107,10 @@ export default function Footer() {
               Service Areas
             </h4>
             <ul className="space-y-2.5">
-              {serviceAreas.map((area) => (
+              {(serviceAreas.length > 0
+                ? serviceAreas
+                : ['Great Neck', 'Flushing', 'Bayside', 'Manhattan']
+              ).map((area) => (
                 <li key={area} className="text-sm text-white/70">
                   {area}
                 </li>
@@ -109,15 +128,26 @@ export default function Footer() {
               updates.
             </p>
             <div className="flex items-center gap-3">
-              {/* Social link placeholders */}
-              {['WeChat', 'Instagram', 'Facebook'].map((platform) => (
-                <span
-                  key={platform}
-                  className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 text-white/70 hover:bg-accent hover:text-white text-xs font-medium transition-colors cursor-pointer"
-                >
-                  {platform[0]}
-                </span>
-              ))}
+              {socialLinks.map((platform) =>
+                platform.href ? (
+                  <a
+                    key={platform.label}
+                    href={platform.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 text-white/70 hover:bg-accent hover:text-white text-xs font-medium transition-colors"
+                  >
+                    {platform.label[0]}
+                  </a>
+                ) : (
+                  <span
+                    key={platform.label}
+                    className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white/10 text-white/50 text-xs font-medium"
+                  >
+                    {platform.label[0]}
+                  </span>
+                ),
+              )}
             </div>
           </div>
         </div>
@@ -126,8 +156,7 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/50">
             <p>
-              &copy; {new Date().getFullYear()} Tru International Realty Corp.
-              All rights reserved.
+              &copy; {new Date().getFullYear()} {companyName}. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
               <Link href="/privacy" className="hover:text-white/80 transition-colors">

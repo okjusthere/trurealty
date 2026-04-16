@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from 'react'
 import { Loader2, Send } from 'lucide-react'
+import type { InquiryContext, InterestValue } from '@/lib/site'
 import { cn } from '@/lib/utils'
 
 const interestOptions = [
@@ -9,31 +10,80 @@ const interestOptions = [
   { value: 'buying', label: 'Buying a Home' },
   { value: 'selling', label: 'Selling a Home' },
   { value: 'new-development', label: 'New Development' },
+  { value: 'investment', label: 'Investment' },
   { value: 'other', label: 'Other' },
 ]
 
 const inputStyles =
   'w-full px-4 py-2.5 text-sm border border-border rounded-md bg-white text-foreground placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors'
 
-export default function ContactForm() {
+interface ContactFormProps {
+  context?: InquiryContext
+  defaultInterest?: InterestValue
+  submitLabel?: string
+  successTitle?: string
+  successMessage?: string
+  className?: string
+}
+
+export default function ContactForm({
+  context,
+  defaultInterest = '',
+  submitLabel = 'Send Message',
+  successTitle = 'Thank You!',
+  successMessage,
+  className,
+}: ContactFormProps) {
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const resolvedSuccessMessage =
+    successMessage ??
+    (context?.sourceLabel
+      ? `We've received your message about ${context.sourceLabel} and will get back to you shortly.`
+      : "We've received your message and will get back to you shortly.")
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
+    setErrorMessage(null)
 
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
+    try {
+      const formData = new FormData(e.currentTarget)
+      const data = Object.fromEntries(formData.entries())
 
-    // TODO: Replace with server action
-    console.log('Contact form submission:', data)
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          context,
+          pageUrl: window.location.href,
+        }),
+      })
 
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 800))
+      const payload = (await response.json().catch(() => null)) as {
+        message?: string
+      } | null
 
-    setLoading(false)
-    setSubmitted(true)
+      if (!response.ok) {
+        throw new Error(payload?.message ?? 'Unable to submit your request right now.')
+      }
+
+      setSubmitted(true)
+      e.currentTarget.reset()
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Unable to submit your request right now.',
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (submitted) {
@@ -43,17 +93,17 @@ export default function ContactForm() {
           <Send className="h-5 w-5 text-green-600" />
         </div>
         <h3 className="font-heading text-lg font-semibold text-foreground">
-          Thank You!
+          {successTitle}
         </h3>
         <p className="mt-2 text-sm text-muted">
-          We&apos;ve received your message and will get back to you shortly.
+          {resolvedSuccessMessage}
         </p>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} className={cn('space-y-5', className)}>
       {/* Name */}
       <div>
         <label htmlFor="name" className="block text-sm font-medium text-foreground mb-1.5">
@@ -106,6 +156,7 @@ export default function ContactForm() {
         <select
           id="interest"
           name="interest"
+          defaultValue={defaultInterest}
           className={cn(inputStyles, 'appearance-none bg-[length:16px] bg-[right_12px_center] bg-no-repeat')}
           style={{
             backgroundImage:
@@ -135,6 +186,12 @@ export default function ContactForm() {
         />
       </div>
 
+      {errorMessage && (
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {errorMessage}
+        </div>
+      )}
+
       {/* Submit */}
       <button
         type="submit"
@@ -149,7 +206,7 @@ export default function ContactForm() {
         ) : (
           <>
             <Send className="h-4 w-4" />
-            Send Message
+            {submitLabel}
           </>
         )}
       </button>

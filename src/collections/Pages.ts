@@ -23,6 +23,7 @@ export const Pages: CollectionConfig = {
         { label: 'Blog Post', value: 'blog' },
         { label: 'Community Guide', value: 'community' },
         { label: 'Resource', value: 'resource' },
+        { label: 'Landing Page', value: 'landing' },
       ],
     },
     {

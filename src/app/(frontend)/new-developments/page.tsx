@@ -1,5 +1,6 @@
 import { getPayloadClient } from '@/lib/payload'
 import DevelopmentCard from '@/components/DevelopmentCard'
+import type { DevelopmentRecord } from '@/lib/site'
 
 export const metadata = {
   title: 'New Developments | Tru International Realty Corp',
@@ -14,6 +15,8 @@ export default async function NewDevelopmentsPage() {
     limit: 100,
   })
 
+  const docs = developments.docs as DevelopmentRecord[]
+
   return (
     <div className="py-16">
       <div className="max-w-7xl mx-auto px-4">
@@ -25,10 +28,10 @@ export default async function NewDevelopmentsPage() {
           opportunities in the New York metropolitan area.
         </p>
 
-        {developments.docs.length > 0 ? (
+        {docs.length > 0 ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {developments.docs.map((dev: any) => (
-              <DevelopmentCard key={dev.id} development={dev} />
+            {docs.map((development) => (
+              <DevelopmentCard key={development.id} development={development} />
             ))}
           </div>
         ) : (

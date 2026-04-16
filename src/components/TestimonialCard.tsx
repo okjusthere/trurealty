@@ -1,21 +1,16 @@
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import type { TestimonialRecord } from '@/lib/site'
 
 interface TestimonialCardProps {
-  testimonial: {
-    clientName?: string
-    rating?: number
-    content?: string
-    transactionType?: string
-    [key: string]: unknown
-  }
+  testimonial: TestimonialRecord
 }
 
 export default function TestimonialCard({ testimonial }: TestimonialCardProps) {
   const clientName = testimonial?.clientName ?? 'Anonymous'
   const rating = testimonial?.rating ?? 5
   const quote = testimonial?.content ?? ''
-  const transactionType = testimonial?.transactionType
+  const transactionType = testimonial?.transactionType ?? undefined
 
   return (
     <div className="relative bg-white rounded-lg border border-border p-6 sm:p-8">

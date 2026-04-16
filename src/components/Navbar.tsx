@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Menu, X, Phone } from 'lucide-react'
+import type { CompanyInfoRecord } from '@/lib/site'
 import { cn, formatPhone } from '@/lib/utils'
-
-const PHONE_NUMBER = '5168298628'
 
 const navLinks = [
   { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
   { href: '/agents', label: 'Agents' },
   { href: '/listings', label: 'Listings' },
   { href: '/new-developments', label: 'New Developments' },
@@ -16,8 +16,15 @@ const navLinks = [
   { href: '/contact', label: 'Contact' },
 ]
 
-export default function Navbar() {
+interface NavbarProps {
+  companyInfo: CompanyInfoRecord
+}
+
+export default function Navbar({ companyInfo }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const phoneNumber = companyInfo.phone || '5168298628'
+  const companyName = companyInfo.companyName || 'Tru Realty'
+  const chineseName = companyInfo.chineseName || '嘉实地产'
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
@@ -26,11 +33,11 @@ export default function Navbar() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-end h-8 text-sm">
             <a
-              href={`tel:${PHONE_NUMBER}`}
+              href={`tel:${phoneNumber}`}
               className="flex items-center gap-1.5 hover:text-accent transition-colors"
             >
               <Phone className="h-3.5 w-3.5" />
-              <span>{formatPhone(PHONE_NUMBER)}</span>
+              <span>{formatPhone(phoneNumber)}</span>
             </a>
           </div>
         </div>
@@ -42,10 +49,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex flex-col leading-tight">
             <span className="font-heading text-xl font-bold tracking-wide text-primary">
-              TRU REALTY
+              {companyName.toUpperCase()}
             </span>
             <span className="text-xs text-muted tracking-widest">
-              嘉实地产
+              {chineseName}
             </span>
           </Link>
 
@@ -106,11 +113,11 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href={`tel:${PHONE_NUMBER}`}
+              href={`tel:${phoneNumber}`}
               className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-primary"
             >
               <Phone className="h-4 w-4" />
-              {formatPhone(PHONE_NUMBER)}
+              {formatPhone(phoneNumber)}
             </a>
           </div>
         </div>

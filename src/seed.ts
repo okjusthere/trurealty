@@ -1,6 +1,10 @@
 import { getPayload } from 'payload'
 import config from './payload.config'
 
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'Unknown error'
+}
+
 async function seed() {
   const payload = await getPayload({ config })
 
@@ -17,9 +21,34 @@ async function seed() {
       },
     })
     console.log('✅ Admin user created')
-  } catch (e) {
+  } catch {
     console.log('ℹ️  Admin user already exists')
   }
+
+  await payload.updateGlobal({
+    slug: 'company-info',
+    data: {
+      companyName: 'Tru International Realty Corp',
+      chineseName: '嘉实地产',
+      slogan: 'Real Estate Expertise. Results You Can Trust.',
+      phone: '929-806-0505',
+      email: 'info@trurealtycorp.com',
+      address: {
+        street: '62 Westminster Rd',
+        city: 'Great Neck',
+        state: 'NY',
+        zip: '11020',
+      },
+      serviceAreas: [
+        { name: 'Great Neck' },
+        { name: 'Flushing' },
+        { name: 'Bayside' },
+        { name: 'Long Island City' },
+        { name: 'Brooklyn' },
+      ],
+    },
+  })
+  console.log('✅ Company info updated')
 
   // Seed Agents
   const agents = [
@@ -28,9 +57,9 @@ async function seed() {
       title: 'broker' as const,
       phone: '929-806-0505',
       email: 'riva.zheng@trurealtycorp.com',
-      specialties: ['residential', 'new-development', 'luxury'] as const[],
-      serviceAreas: ['queens', 'brooklyn', 'manhattan', 'nassau'] as const[],
-      languages: ['english', 'mandarin'] as const[],
+      specialties: ['residential', 'new-development', 'luxury'],
+      serviceAreas: ['queens', 'brooklyn', 'manhattan', 'nassau'],
+      languages: ['english', 'mandarin'],
       slug: 'riva-zheng',
       sortOrder: 1,
       featured: true,
@@ -41,9 +70,9 @@ async function seed() {
       title: 'realtor' as const,
       phone: '347-925-7557',
       email: 'ling.xiang@trurealtycorp.com',
-      specialties: ['residential', 'new-development'] as const[],
-      serviceAreas: ['queens', 'brooklyn'] as const[],
-      languages: ['english', 'mandarin'] as const[],
+      specialties: ['residential', 'new-development'],
+      serviceAreas: ['queens', 'brooklyn'],
+      languages: ['english', 'mandarin'],
       slug: 'ling-xiang',
       sortOrder: 2,
       featured: true,
@@ -54,9 +83,9 @@ async function seed() {
       title: 'realtor' as const,
       phone: '917-285-5628',
       email: 'minyue.dong@trurealtycorp.com',
-      specialties: ['residential', 'rental'] as const[],
-      serviceAreas: ['queens', 'nassau', 'long-island'] as const[],
-      languages: ['english', 'mandarin'] as const[],
+      specialties: ['residential', 'rental'],
+      serviceAreas: ['queens', 'nassau', 'long-island'],
+      languages: ['english', 'mandarin'],
       slug: 'min-yue-dong',
       sortOrder: 3,
       featured: true,
@@ -68,9 +97,9 @@ async function seed() {
       credentials: 'CBR, GRI',
       phone: '917-415-4955',
       email: 'kien.chow@trurealtycorp.com',
-      specialties: ['residential', 'commercial', 'investment'] as const[],
-      serviceAreas: ['queens', 'brooklyn', 'manhattan'] as const[],
-      languages: ['english', 'cantonese', 'mandarin'] as const[],
+      specialties: ['residential', 'commercial', 'investment'],
+      serviceAreas: ['queens', 'brooklyn', 'manhattan'],
+      languages: ['english', 'cantonese', 'mandarin'],
       slug: 'kien-s-chow',
       sortOrder: 4,
       featured: true,
@@ -81,9 +110,9 @@ async function seed() {
       title: 'realtor' as const,
       phone: '718-888-9988',
       email: 'yingzhen.zhang@trurealtycorp.com',
-      specialties: ['residential', 'new-development'] as const[],
-      serviceAreas: ['queens', 'nassau'] as const[],
-      languages: ['english', 'mandarin'] as const[],
+      specialties: ['residential', 'new-development'],
+      serviceAreas: ['queens', 'nassau'],
+      languages: ['english', 'mandarin'],
       slug: 'yingzhen-zhang',
       sortOrder: 5,
       featured: false,
@@ -94,9 +123,9 @@ async function seed() {
       title: 'realtor' as const,
       phone: '347-439-9466',
       email: 'guangyang.li@trurealtycorp.com',
-      specialties: ['residential', 'rental'] as const[],
-      serviceAreas: ['queens', 'nassau', 'long-island'] as const[],
-      languages: ['english', 'mandarin'] as const[],
+      specialties: ['residential', 'rental'],
+      serviceAreas: ['queens', 'nassau', 'long-island'],
+      languages: ['english', 'mandarin'],
       slug: 'guang-yang-li',
       sortOrder: 6,
       featured: false,
@@ -109,12 +138,14 @@ async function seed() {
     try {
       const created = await payload.create({
         collection: 'agents',
-        data: agent as any,
+        data: agent,
       })
-      agentIds[agent.slug] = created.id as number
+      agentIds[agent.slug] = Number(created.id)
       console.log(`✅ Agent: ${agent.name}`)
-    } catch (e: any) {
-      console.log(`ℹ️  Agent ${agent.name} may already exist: ${e.message?.slice(0, 50)}`)
+    } catch (error) {
+      console.log(
+        `ℹ️  Agent ${agent.name} may already exist: ${getErrorMessage(error).slice(0, 50)}`,
+      )
     }
   }
 
@@ -127,7 +158,7 @@ async function seed() {
       status: 'move-in-ready' as const,
       priceRange: { min: 550000, max: 1200000 },
       totalUnits: 120,
-      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'laundry', 'pet-friendly'] as const[],
+      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'laundry', 'pet-friendly'],
       featured: true,
       slug: 'fowler-park',
       contactAgent: agentIds['riva-zheng'],
@@ -139,7 +170,7 @@ async function seed() {
       status: 'under-construction' as const,
       priceRange: { min: 480000, max: 950000 },
       totalUnits: 85,
-      amenities: ['gym', 'parking', 'laundry', 'storage', 'outdoor-space'] as const[],
+      amenities: ['gym', 'parking', 'laundry', 'storage', 'outdoor-space'],
       featured: true,
       slug: 'longfield',
       contactAgent: agentIds['ling-xiang'],
@@ -151,7 +182,7 @@ async function seed() {
       status: 'under-construction' as const,
       priceRange: { min: 620000, max: 1500000 },
       totalUnits: 200,
-      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'pool', 'doorman', 'ev-charging'] as const[],
+      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'pool', 'doorman', 'ev-charging'],
       featured: true,
       slug: 'ckz-tower',
       contactAgent: agentIds['riva-zheng'],
@@ -163,7 +194,7 @@ async function seed() {
       status: 'move-in-ready' as const,
       priceRange: { min: 380000, max: 750000 },
       totalUnits: 60,
-      amenities: ['parking', 'laundry', 'storage'] as const[],
+      amenities: ['parking', 'laundry', 'storage'],
       featured: true,
       slug: 'east-west-plaza',
       contactAgent: agentIds['min-yue-dong'],
@@ -175,7 +206,7 @@ async function seed() {
       status: 'pre-construction' as const,
       priceRange: { min: 450000, max: 880000 },
       totalUnits: 95,
-      amenities: ['gym', 'parking', 'rooftop', 'laundry', 'pet-friendly'] as const[],
+      amenities: ['gym', 'parking', 'rooftop', 'laundry', 'pet-friendly'],
       featured: true,
       slug: 'harvest-plaza',
       contactAgent: agentIds['kien-s-chow'],
@@ -187,7 +218,7 @@ async function seed() {
       status: 'under-construction' as const,
       priceRange: { min: 700000, max: 2000000 },
       totalUnits: 150,
-      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'pool', 'doorman', 'ev-charging', 'outdoor-space'] as const[],
+      amenities: ['gym', 'rooftop', 'parking', 'concierge', 'pool', 'doorman', 'ev-charging', 'outdoor-space'],
       featured: true,
       slug: 'four-points',
       contactAgent: agentIds['riva-zheng'],
@@ -198,11 +229,13 @@ async function seed() {
     try {
       await payload.create({
         collection: 'new-developments',
-        data: dev as any,
+        data: dev,
       })
       console.log(`✅ Development: ${dev.name}`)
-    } catch (e: any) {
-      console.log(`ℹ️  Development ${dev.name} may already exist: ${e.message?.slice(0, 50)}`)
+    } catch (error) {
+      console.log(
+        `ℹ️  Development ${dev.name} may already exist: ${getErrorMessage(error).slice(0, 50)}`,
+      )
     }
   }
 
@@ -294,11 +327,13 @@ async function seed() {
     try {
       await payload.create({
         collection: 'listings',
-        data: listing as any,
+        data: listing,
       })
       console.log(`✅ Listing: ${listing.title}`)
-    } catch (e: any) {
-      console.log(`ℹ️  Listing ${listing.title} may already exist: ${e.message?.slice(0, 50)}`)
+    } catch (error) {
+      console.log(
+        `ℹ️  Listing ${listing.title} may already exist: ${getErrorMessage(error).slice(0, 50)}`,
+      )
     }
   }
 
@@ -350,11 +385,13 @@ async function seed() {
     try {
       await payload.create({
         collection: 'testimonials',
-        data: testimonial as any,
+        data: testimonial,
       })
       console.log(`✅ Testimonial: ${testimonial.clientName}`)
-    } catch (e: any) {
-      console.log(`ℹ️  Testimonial ${testimonial.clientName} may already exist: ${e.message?.slice(0, 50)}`)
+    } catch (error) {
+      console.log(
+        `ℹ️  Testimonial ${testimonial.clientName} may already exist: ${getErrorMessage(error).slice(0, 50)}`,
+      )
     }
   }
 
@@ -381,17 +418,27 @@ async function seed() {
       publishedAt: '2026-02-20',
       slug: 'nyc-coop-vs-condo-guide',
     },
+    {
+      title: 'Get Your Great Neck Home Value Report',
+      pageType: 'landing' as const,
+      excerpt:
+        'Thinking about selling in Great Neck? Request a free comparative market analysis and pricing strategy review.',
+      publishedAt: '2026-04-16',
+      slug: 'great-neck-home-value-report',
+    },
   ]
 
   for (const post of blogPosts) {
     try {
       await payload.create({
         collection: 'pages',
-        data: post as any,
+        data: post,
       })
       console.log(`✅ Blog: ${post.title}`)
-    } catch (e: any) {
-      console.log(`ℹ️  Blog ${post.title} may already exist: ${e.message?.slice(0, 50)}`)
+    } catch (error) {
+      console.log(
+        `ℹ️  Blog ${post.title} may already exist: ${getErrorMessage(error).slice(0, 50)}`,
+      )
     }
   }
 

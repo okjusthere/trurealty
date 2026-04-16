@@ -1,26 +1,26 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Phone } from 'lucide-react'
-import { cn, formatPhone } from '@/lib/utils'
+import { formatPhone } from '@/lib/utils'
+import { getMediaUrl, type AgentRecord } from '@/lib/site'
 
 interface AgentCardProps {
-  agent: {
-    slug?: string
-    name?: string
-    title?: string
-    phone?: string
-    photo?: { url?: string } | null
-    languages?: string[]
-    [key: string]: unknown
-  }
+  agent: AgentRecord
+}
+
+const titleLabels: Record<string, string> = {
+  broker: 'Broker',
+  'associate-broker': 'Associate Broker',
+  realtor: 'REALTOR®',
+  salesperson: 'Licensed Salesperson',
 }
 
 export default function AgentCard({ agent }: AgentCardProps) {
   const slug = agent?.slug ?? ''
   const name = agent?.name ?? 'Unknown Agent'
-  const title = agent?.title
-  const phone = agent?.phone
-  const photo = typeof agent?.photo === 'object' && agent?.photo?.url ? agent.photo.url : null
+  const title = agent?.title ?? undefined
+  const phone = agent?.phone ?? undefined
+  const photo = getMediaUrl(agent?.photo)
   const languages = agent?.languages ?? []
 
   return (
@@ -56,7 +56,7 @@ export default function AgentCard({ agent }: AgentCardProps) {
           {name}
         </h3>
         {title && (
-          <p className="mt-0.5 text-sm text-muted">{title}</p>
+          <p className="mt-0.5 text-sm text-muted">{titleLabels[title] || title}</p>
         )}
         {phone && (
           <p className="mt-2 flex items-center gap-1.5 text-sm text-muted">

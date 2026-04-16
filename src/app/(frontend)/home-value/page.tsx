@@ -85,6 +85,7 @@ export default function HomeValuePage() {
   const [address, setAddress] = useState('')
   const [step, setStep] = useState<'input' | 'form' | 'success'>('input')
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   function handleAddressSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -95,18 +96,52 @@ export default function HomeValuePage() {
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setLoading(true)
+    setErrorMessage(null)
 
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
+    try {
+      const formData = new FormData(e.currentTarget)
+      const data = Object.fromEntries(formData.entries())
 
-    // TODO: Connect to Kevv CRM
-    console.log('Home value lead submission:', data)
+      const response = await fetch('/api/inquiries', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          interest: 'selling',
+          message: [
+            `Property address: ${data.address || address}`,
+            `Property type: ${data.propertyType || 'Not provided'}`,
+            `Selling timeframe: ${data.timeframe || 'Not provided'}`,
+            `Additional notes: ${data.message || 'None'}`,
+          ].join('\n'),
+          context: {
+            sourceType: 'landing',
+            sourceLabel: 'Home Value Report',
+            sourceSlug: 'home-value',
+          },
+          pageUrl: window.location.href,
+        }),
+      })
 
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 800))
+      if (!response.ok) {
+        throw new Error('Unable to submit your request right now.')
+      }
 
-    setLoading(false)
-    setStep('success')
+      setStep('success')
+      e.currentTarget.reset()
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Unable to submit your request right now.',
+      )
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -318,6 +353,12 @@ export default function HomeValuePage() {
                     </>
                   )}
                 </button>
+
+                {errorMessage && (
+                  <div className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                    {errorMessage}
+                  </div>
+                )}
               </form>
             </div>
           )}

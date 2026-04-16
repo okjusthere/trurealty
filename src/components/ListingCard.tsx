@@ -2,22 +2,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Bed, Bath, Maximize } from 'lucide-react'
 import { cn, formatPrice } from '@/lib/utils'
+import { getPrimaryImageUrl, type ListingRecord } from '@/lib/site'
 
 interface ListingCardProps {
-  listing: {
-    slug?: string
-    price?: number
-    address?: string
-    city?: string
-    state?: string
-    beds?: number
-    baths?: number
-    sqft?: number
-    photos?: Array<{ image?: { url?: string } | null }> | null
-    status?: string
-    propertyType?: string
-    [key: string]: unknown
-  }
+  listing: ListingRecord
 }
 
 const statusStyles: Record<string, string> = {
@@ -41,13 +29,7 @@ export default function ListingCard({ listing }: ListingCardProps) {
   const status = listing?.status ?? 'Active'
   const propertyType = listing?.propertyType
 
-  // Extract photo URL from Payload photos array
-  const photo =
-    Array.isArray(listing?.photos) && listing.photos.length > 0
-      ? typeof listing.photos[0]?.image === 'object' && listing.photos[0]?.image?.url
-        ? listing.photos[0].image.url
-        : null
-      : null
+  const photo = getPrimaryImageUrl(listing?.photos)
 
   return (
     <Link
@@ -93,21 +75,21 @@ export default function ListingCard({ listing }: ListingCardProps) {
         </p>
 
         {/* Beds / Baths / Sqft */}
-        {(beds !== undefined || baths !== undefined || sqft !== undefined) && (
+        {(beds != null || baths != null || sqft != null) && (
           <div className="mt-2 flex items-center gap-4 text-sm text-muted">
-            {beds !== undefined && (
+            {beds != null && (
               <span className="flex items-center gap-1">
                 <Bed className="h-4 w-4" />
                 {beds} {beds === 1 ? 'Bed' : 'Beds'}
               </span>
             )}
-            {baths !== undefined && (
+            {baths != null && (
               <span className="flex items-center gap-1">
                 <Bath className="h-4 w-4" />
                 {baths} {baths === 1 ? 'Bath' : 'Baths'}
               </span>
             )}
-            {sqft !== undefined && (
+            {sqft != null && (
               <span className="flex items-center gap-1">
                 <Maximize className="h-4 w-4" />
                 {sqft.toLocaleString()} sqft

@@ -13,6 +13,7 @@ import { Testimonials } from './collections/Testimonials'
 import { Media } from './collections/Media'
 import { CompanyInfo } from './globals/CompanyInfo'
 import { Users } from './collections/Users'
+import { Inquiries } from './collections/Inquiries'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Agents, Listings, NewDevelopments, Pages, Testimonials],
+  collections: [
+    Users,
+    Media,
+    Agents,
+    Listings,
+    NewDevelopments,
+    Pages,
+    Testimonials,
+    Inquiries,
+  ],
   globals: [CompanyInfo],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || 'tru-realty-dev-secret-change-in-production',

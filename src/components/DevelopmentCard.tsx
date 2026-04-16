@@ -1,18 +1,18 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { MapPin } from 'lucide-react'
-import { cn, formatPrice } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
+import { getPrimaryImageUrl, type DevelopmentRecord } from '@/lib/site'
 
 interface DevelopmentCardProps {
-  development: {
-    slug?: string
-    name?: string
-    location?: string
-    photos?: Array<{ image?: { url?: string } | null }> | null
-    status?: string
-    priceRange?: { min?: number; max?: number } | null
-    [key: string]: unknown
-  }
+  development: DevelopmentRecord
+}
+
+const statusLabels: Record<string, string> = {
+  'pre-construction': 'Pre-Construction',
+  'under-construction': 'Under Construction',
+  'move-in-ready': 'Move-In Ready',
+  'sold-out': 'Sold Out',
 }
 
 export default function DevelopmentCard({ development }: DevelopmentCardProps) {
@@ -21,13 +21,7 @@ export default function DevelopmentCard({ development }: DevelopmentCardProps) {
   const location = development?.location ?? ''
   const status = development?.status
 
-  // Extract photo URL from Payload photos array
-  const photo =
-    Array.isArray(development?.photos) && development.photos.length > 0
-      ? typeof development.photos[0]?.image === 'object' && development.photos[0]?.image?.url
-        ? development.photos[0].image.url
-        : null
-      : null
+  const photo = getPrimaryImageUrl(development?.photos)
 
   const priceMin = development?.priceRange?.min
   const priceMax = development?.priceRange?.max
@@ -64,7 +58,7 @@ export default function DevelopmentCard({ development }: DevelopmentCardProps) {
 
         {status && (
           <span className="absolute top-3 left-3 px-3 py-1 text-xs font-semibold bg-accent text-white rounded-md">
-            {status}
+            {statusLabels[status] || status}
           </span>
         )}
       </div>
