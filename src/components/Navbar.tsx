@@ -32,21 +32,21 @@ export default function Navbar({ companyInfo }: NavbarProps) {
     <header className="sticky top-0 z-50 bg-white border-b border-border">
       {/* Main navigation */}
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between gap-3 h-16 sm:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 min-w-0">
             {logoUrl ? (
               <img
                 src={logoUrl}
                 alt={`${companyName} logo`}
-                className="h-12 w-auto"
+                className="h-10 sm:h-12 w-auto shrink-0"
               />
             ) : null}
-            <div className="hidden sm:flex flex-col leading-tight">
-              <span className="font-heading text-xl font-bold tracking-wide text-primary">
+            <div className="flex flex-col leading-tight min-w-0">
+              <span className="font-heading text-sm sm:text-xl font-bold tracking-wide text-primary whitespace-nowrap">
                 {companyName.toUpperCase()}
               </span>
-              <span className="text-xs text-muted tracking-widest">
+              <span className="text-[10px] sm:text-xs text-muted tracking-wider sm:tracking-widest whitespace-nowrap">
                 {chineseName}
               </span>
             </div>
