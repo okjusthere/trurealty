@@ -53,9 +53,6 @@ export default async function ListingsPage({
         </p>
 
         <OneKeySearchBox />
-        <p className="text-xs text-muted text-center mb-10">
-          Full search powered by OneKey&reg; MLS — results open in a new tab.
-        </p>
 
         <div className="flex justify-center gap-2 mb-10">
           {tabs.map((tab) => (
