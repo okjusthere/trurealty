@@ -3,6 +3,7 @@ export const dynamic = 'force-dynamic'
 import Link from 'next/link'
 import { getPayloadClient } from '@/lib/payload'
 import ListingCard from '@/components/ListingCard'
+import OneKeySearchBox from '@/components/OneKeySearchBox'
 import type { ListingRecord } from '@/lib/site'
 
 export const metadata = {
@@ -47,8 +48,13 @@ export default async function ListingsPage({
         <h1 className="text-4xl font-heading text-primary mb-2 text-center">
           Our Listings
         </h1>
-        <p className="text-muted text-center mb-10">
+        <p className="text-muted text-center mb-8">
           Explore our current and recently sold properties
+        </p>
+
+        <OneKeySearchBox />
+        <p className="text-xs text-muted text-center mb-10">
+          Full search powered by OneKey&reg; MLS — results open in a new tab.
         </p>
 
         <div className="flex justify-center gap-2 mb-10">

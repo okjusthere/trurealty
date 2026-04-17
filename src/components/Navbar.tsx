@@ -42,7 +42,7 @@ export default function Navbar({ companyInfo }: NavbarProps) {
                 className="h-12 w-auto"
               />
             ) : null}
-            <div className="flex flex-col leading-tight">
+            <div className="hidden sm:flex flex-col leading-tight">
               <span className="font-heading text-xl font-bold tracking-wide text-primary">
                 {companyName.toUpperCase()}
               </span>
